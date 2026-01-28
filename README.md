@@ -17,37 +17,6 @@ A full-stack “ContextCV” platform where users author their portfolio in Mark
 - Backend: Node.js, Express, Socket.io, Mongoose, JWT, Swagger, Google Generative AI, Pinecone
 - Frontend: React, Axios, socket.io-client, react-markdown, lucide-react
 
-## Monorepo Layout
-
-ContextCV/
-├─ backend-node/
-│  ├─ server.js
-│  ├─ routes/
-│  │  ├─ authRoutes.js
-│  │  └─ portfolioRoutes.js
-│  ├─ controllers/
-│  │  ├─ authControllers.js
-│  │  └─ portfolioControllers.js
-│  ├─ models/
-│  │  ├─ User.js
-│  │  └─ Portfolio.js
-│  ├─ middleware/
-│  │  └─ authMiddleware.js
-│  ├─ services/
-│  │  └─ ragService.js
-│  └─ config/
-│     ├─ db.js
-│     ├─ gemini.js
-│     └─ pinecone.js
-└─ frontend/
-   └─ src/
-      ├─ App.js
-      ├─ App.css
-      ├─ Auth.js
-      ├─ Dashboard.js
-      ├─ PublicProfile.js
-      └─ api.js
-
 ## Backend Setup
 
 1. Install dependencies:
