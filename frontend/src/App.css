@@ -1,0 +1,362 @@
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --text: #1f2937;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --danger: #ef4444;
+  --success: #10b981;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Auth */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.auth-card {
+  background: var(--surface);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-header h2 {
+  margin: 0 0 0.5rem;
+  color: var(--primary);
+}
+
+.auth-header p {
+  color: var(--text-light);
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+}
+
+.auth-button:hover {
+  background: var(--primary-hover);
+}
+
+.text-link {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+}
+
+/* Dashboard */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+  color: inherit;
+}
+
+.action-btn.danger {
+  background: #fee2e2;
+  color: var(--danger);
+}
+
+.action-btn.outline {
+  border: 1px solid var(--border);
+  background: white;
+}
+
+.editor-container {
+  background: var(--surface);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-light);
+  border-radius: 0.5rem;
+}
+
+.tab-btn.active {
+  background: #eef2ff;
+  color: var(--primary);
+}
+
+.save-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.editor-content {
+  flex: 1;
+  display: flex;
+}
+
+.markdown-editor {
+  flex: 1;
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  resize: none;
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  line-height: 1.5;
+  outline: none;
+}
+
+.markdown-preview {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  prose: lg;
+}
+
+/* Public Profile */
+.public-profile-container {
+  display: flex;
+  height: 100vh;
+}
+
+.profile-content {
+  flex: 2;
+  padding: 2rem;
+  overflow-y: auto;
+  background: white;
+}
+
+.chat-interface {
+  flex: 1;
+  background: #f8fafc;
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.chat-header {
+  padding: 1rem;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.messages-area {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.message-row {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 85%;
+}
+
+.message-row.visitor {
+  align-self: flex-start;
+  flex-direction: row;
+}
+
+.message-row.owner {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.visitor .message-avatar {
+  background: #e0e7ff;
+  color: var(--primary);
+}
+
+.owner .message-avatar {
+  background: #d1fae5;
+  color: var(--success);
+}
+
+.message-bubble {
+  padding: 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.visitor .message-bubble {
+  background: white;
+  border: 1px solid var(--border);
+  border-top-left-radius: 0;
+}
+
+.owner .message-bubble {
+  background: var(--primary);
+  color: white;
+  border-top-right-radius: 0;
+}
+
+.input-area {
+  padding: 1rem;
+  background: white;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  outline: none;
+}
+
+.input-area button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.input-area button:disabled {
+  background: var(--text-light);
+  cursor: not-allowed;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-light);
+  text-align: center;
+}
