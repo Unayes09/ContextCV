@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Auth from './Auth';
+import Landing from './Landing';
 import Dashboard from './Dashboard';
 import PublicProfile from './PublicProfile';
 import './App.css';
@@ -18,13 +19,18 @@ function App() {
     } else {
       const token = localStorage.getItem('token');
       if (token) {
-        setView('dashboard');
+        // If logged in, we can go to dashboard or landing first
+        // Let's go to landing if they just logged in, or dashboard if they refresh on dashboard
+        if (path === '/dashboard') {
+          setView('dashboard');
+        } else {
+          setView('landing');
+        }
       } else {
         setView('auth');
       }
     }
     
-    // Listen to popstate for back button
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
@@ -35,13 +41,19 @@ function App() {
       setProfileId(path.split('/')[2]);
       setView('public');
     } else if (localStorage.getItem('token')) {
-      setView('dashboard');
+      if (path === '/dashboard') setView('dashboard');
+      else setView('landing');
     } else {
       setView('auth');
     }
   };
 
   const handleLogin = () => {
+    setView('landing');
+    window.history.pushState({}, '', '/welcome');
+  };
+
+  const handleGetStarted = () => {
     setView('dashboard');
     window.history.pushState({}, '', '/dashboard');
   };
@@ -57,6 +69,7 @@ function App() {
   return (
     <div className="App">
       {view === 'auth' && <Auth onLogin={handleLogin} />}
+      {view === 'landing' && <Landing onGetStarted={handleGetStarted} />}
       {view === 'dashboard' && <Dashboard onLogout={handleLogout} />}
       {view === 'public' && <PublicProfile userId={profileId} />}
     </div>

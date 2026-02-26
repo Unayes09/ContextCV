@@ -24,83 +24,348 @@ body {
   flex-direction: column;
 }
 
-/* Auth */
+/* Auth Modern */
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   padding: 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 .auth-card {
   background: var(--surface);
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.logo-icon-auth {
+  color: var(--primary);
+  filter: drop-shadow(0 0 8px rgba(79, 70, 229, 0.3));
 }
 
 .auth-header h2 {
   margin: 0 0 0.5rem;
-  color: var(--primary);
+  color: #111827;
+  font-size: 1.875rem;
+  font-weight: 700;
 }
 
 .auth-header p {
   color: var(--text-light);
-  margin-bottom: 2rem;
+  font-size: 0.875rem;
 }
 
-.input-group {
+.auth-error-msg {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.auth-error-msg.error {
+  background-color: #fef2f2;
+  color: var(--danger);
+  border: 1px solid #fee2e2;
+}
+
+.auth-error-msg.success {
+  background-color: #ecfdf5;
+  color: var(--success);
+  border: 1px solid #d1fae5;
+}
+
+.input-group-modern {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
-.input-icon {
+.input-icon-modern {
   position: absolute;
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--text-light);
+  color: #9ca3af;
 }
 
-.input-group input {
+.input-group-modern input {
   width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.5rem;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
+  padding: 0.875rem 1rem 0.875rem 2.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
   font-size: 1rem;
   box-sizing: border-box;
+  transition: all 0.2s;
+  background-color: #f9fafb;
 }
 
-.auth-button {
+.input-group-modern input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+  background-color: white;
+}
+
+.auth-button-modern {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.875rem;
   background: var(--primary);
   color: white;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  transition: background 0.2s;
+  transition: all 0.2s;
+  margin-top: 1rem;
 }
 
-.auth-button:hover {
+.auth-button-modern:hover {
   background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
 }
 
-.text-link {
+.auth-footer-modern {
+  margin-top: 2rem;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+.text-link-modern {
   background: none;
   border: none;
   color: var(--primary);
   cursor: pointer;
   font-weight: 600;
   padding: 0;
+  transition: color 0.2s;
+}
+
+.text-link-modern:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+/* Landing Page */
+.landing-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.landing-nav {
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.landing-main {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  width: 100%;
+}
+
+.hero-section {
+  text-align: center;
+  margin-bottom: 6rem;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.025em;
+}
+
+.gradient-text {
+  background: linear-gradient(to right, var(--primary), #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+}
+
+.cta-button {
+  padding: 1rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 auto;
+  transition: all 0.2s;
+}
+
+.cta-button:hover {
+  background-color: var(--primary-hover);
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 6rem;
+}
+
+.feature-card {
+  padding: 2rem;
+  border-radius: 1.5rem;
+  background-color: #f9fafb;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.feature-card:hover {
+  background-color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  border-color: var(--primary);
+}
+
+.feature-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  background-color: white;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.feature-card p {
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+.how-it-works {
+  text-align: center;
+}
+
+.how-it-works h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 3rem;
+}
+
+.steps-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.step {
+  flex: 1;
+}
+
+.step-num {
+  width: 40px;
+  height: 40px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  margin: 0 auto 1.5rem;
+}
+
+.step h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.step p {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+.step-line {
+  height: 2px;
+  background-color: var(--border);
+  flex: 0.5;
+  margin-bottom: 3rem;
+}
+
+.landing-footer {
+  padding: 2rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--text-light);
+}
+
+.animated-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Dashboard */
@@ -219,7 +484,50 @@ body {
   flex: 1;
   padding: 2rem;
   overflow-y: auto;
-  prose: lg;
+  height: 100%;
+}
+
+/* Table Styling */
+.markdown-preview table, .markdown-viewer table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.markdown-preview th, .markdown-viewer th,
+.markdown-preview td, .markdown-viewer td {
+  border: 1px solid var(--border);
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.markdown-preview th, .markdown-viewer th {
+  background-color: var(--bg);
+  font-weight: 600;
+}
+
+.markdown-preview tr:nth-child(even), .markdown-viewer tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Fix scrolling in editor content */
+.editor-content {
+  flex: 1;
+  display: flex;
+  min-height: 0; /* Important for flex child scrolling */
+}
+
+.markdown-editor {
+  flex: 1;
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  resize: none;
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  line-height: 1.5;
+  outline: none;
+  overflow-y: auto;
 }
 
 /* Public Profile */
@@ -303,6 +611,14 @@ body {
   border-radius: 1rem;
   font-size: 0.9rem;
   line-height: 1.4;
+}
+
+.message-bubble p {
+  margin: 0;
+}
+
+.message-bubble p + p {
+  margin-top: 0.5rem;
 }
 
 .visitor .message-bubble {

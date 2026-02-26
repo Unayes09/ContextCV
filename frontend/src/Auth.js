@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from './api';
-import { User, Lock, Mail, ArrowRight } from 'lucide-react';
+import { User, Lock, Mail, ArrowRight, Sparkles } from 'lucide-react';
 
 const Auth = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -19,11 +19,6 @@ const Auth = ({ onLogin }) => {
         localStorage.setItem('token', res.data.token);
         onLogin();
       } else {
-        // After register, auto login or ask to login
-        // For simplicity, let's just log them in if token is provided, 
-        // or switch to login mode if not.
-        // Based on backend, register usually returns success message.
-        // Let's switch to login mode and pre-fill.
         setIsLogin(true);
         setError('Registration successful! Please login.');
       }
@@ -34,17 +29,24 @@ const Auth = ({ onLogin }) => {
 
   return (
     <div className="auth-container">
-      <div className="auth-card">
+      <div className="auth-card animated-fade-in">
         <div className="auth-header">
+          <div className="auth-logo">
+            <Sparkles size={32} className="logo-icon-auth" />
+          </div>
           <h2>{isLogin ? 'Welcome Back' : 'Create Account'}</h2>
           <p>{isLogin ? 'Enter your credentials to access your account' : 'Sign up to start building your portfolio'}</p>
         </div>
         
-        {error && <div className="auth-error">{error}</div>}
+        {error && (
+          <div className={`auth-error-msg ${error.includes('successful') ? 'success' : 'error'}`}>
+            {error}
+          </div>
+        )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <Mail size={20} className="input-icon" />
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="input-group-modern">
+            <Mail size={18} className="input-icon-modern" />
             <input 
               type="email" 
               placeholder="Email Address" 
@@ -54,8 +56,8 @@ const Auth = ({ onLogin }) => {
             />
           </div>
           
-          <div className="input-group">
-            <Lock size={20} className="input-icon" />
+          <div className="input-group-modern">
+            <Lock size={18} className="input-icon-modern" />
             <input 
               type="password" 
               placeholder="Password" 
@@ -65,16 +67,16 @@ const Auth = ({ onLogin }) => {
             />
           </div>
 
-          <button type="submit" className="auth-button">
-            {isLogin ? 'Sign In' : 'Sign Up'}
+          <button type="submit" className="auth-button-modern">
+            <span>{isLogin ? 'Sign In' : 'Sign Up'}</span>
             <ArrowRight size={18} />
           </button>
         </form>
 
-        <div className="auth-footer">
+        <div className="auth-footer-modern">
           <p>
             {isLogin ? "Don't have an account? " : "Already have an account? "}
-            <button onClick={() => setIsLogin(!isLogin)} className="text-link">
+            <button onClick={() => setIsLogin(!isLogin)} className="text-link-modern">
               {isLogin ? 'Sign Up' : 'Sign In'}
             </button>
           </p>

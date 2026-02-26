@@ -73,7 +73,7 @@ io.on('connection', (socket) => {
       
       const systemInstruction = `
       You are the owner of this portfolio.
-      Your profile content is provided below.
+      A set of relevant context sections from your profile is provided below.
       
       Instructions:
       1. Answer in the first person ("I", "my").

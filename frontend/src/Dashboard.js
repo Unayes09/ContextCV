@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import api from './api';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Save, LogOut, ExternalLink, Edit3, Eye } from 'lucide-react';
 
 const Dashboard = ({ onLogout }) => {
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [isPreview, setIsPreview] = useState(false);
+  const [isPreview, setIsPreview] = useState(true);
   const [message, setMessage] = useState('');
   const [userId, setUserId] = useState('');
 
@@ -99,7 +100,7 @@ const Dashboard = ({ onLogout }) => {
             />
           ) : (
             <div className="markdown-preview">
-              <ReactMarkdown>{content}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
             </div>
           )}
         </div>

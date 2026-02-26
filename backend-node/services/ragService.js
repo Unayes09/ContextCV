@@ -9,7 +9,45 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const ragService = {
   
   /**
-   * 1. GET EMBEDDING (Updated for Pinecone Llama Inference)
+   * Helper: Split markdown into chunks
+   */
+  chunkMarkdown(text, maxLength = 1000) {
+    // 1. Try to split by headers (handles both \n and \r\n)
+    let sections = text.split(/\r?\n(?=#{1,6} )/);
+    
+    // If no headers were found, split by double newlines
+    if (sections.length <= 1) {
+      sections = text.split(/\r?\n\r?\n/);
+    }
+
+    const chunks = [];
+    let currentChunk = "";
+
+    for (const section of sections) {
+      if (section.length > maxLength) {
+        if (currentChunk) {
+          chunks.push(currentChunk.trim());
+          currentChunk = "";
+        }
+        let remaining = section;
+        while (remaining.length > 0) {
+          chunks.push(remaining.substring(0, maxLength).trim());
+          remaining = remaining.substring(maxLength);
+        }
+      } else if ((currentChunk + section).length > maxLength && currentChunk.length > 0) {
+        chunks.push(currentChunk.trim());
+        currentChunk = section;
+      } else {
+        currentChunk += (currentChunk ? "\n\n" : "") + section;
+      }
+    }
+    
+    if (currentChunk) chunks.push(currentChunk.trim());
+    return chunks.filter(c => c.length > 0);
+  },
+
+  /**
+   * 1. GET EMBEDDING
    */
   async getEmbedding(text, isQuery = false) {
     try {
@@ -17,13 +55,10 @@ const ragService = {
         "llama-text-embed-v2",
         [text],
         { 
-          // Use "query" for searching, "passage" for storing the README
           input_type: isQuery ? "query" : "passage", 
-          dimension: 768 // Matches your 768-dim index exactly
+          dimension: 768 
         }
       );
-      
-      // Pinecone returns an array of vectors; we return the first one
       return result.data[0].values;
     } catch (error) {
       console.error("Embedding Error:", error);
@@ -32,35 +67,94 @@ const ragService = {
   },
 
   /**
-   * 2. SYNC TO PINECONE (For User A: Saving/Updating Readme)
+   * 2. SYNC TO PINECONE (Optimized with Chunking and Metadata)
    */
   async syncToPinecone(userId, content) {
-    // Generate the vector using 'passage' mode
-    const values = await this.getEmbedding(content, false);
-    
-    await index.upsert([{
-      id: userId.toString(),
-      values: values,
-      metadata: { text: content } // Store the text so the bot can read it later
-    }]);
+    try {
+      const uid = userId.toString().trim();
+      console.log(`--- SYNC START for user: "${uid}" ---`);
+      
+      // 1. Delete old vectors
+      try {
+        await index.deleteMany({ filter: { userId: { '$eq': uid } } });
+      } catch (e) {
+        console.log("Delete filter skipped");
+      }
+
+      // 2. Chunk the new content
+      const chunks = this.chunkMarkdown(content);
+      console.log(`Created ${chunks.length} chunks`);
+      const vectors = [];
+
+      for (let i = 0; i < chunks.length; i++) {
+        const chunk = chunks[i];
+        const values = await this.getEmbedding(chunk, false);
+        
+        const metadata = { 
+          userId: uid, 
+          text: chunk,
+          chunkIndex: i
+        };
+
+        console.log(`Chunk ${i} metadata check:`, JSON.stringify(metadata).substring(0, 100));
+
+        vectors.push({
+          id: `${uid}_${i}_${Date.now()}`, // Added timestamp to ensure uniqueness
+          values: values,
+          metadata: metadata
+        });
+      }
+
+      // 3. Batch upsert
+      if (vectors.length > 0) {
+        await index.upsert(vectors);
+        console.log(`--- SYNC COMPLETE: Upserted ${vectors.length} vectors ---`);
+      }
+    } catch (error) {
+      console.error("Sync Error:", error);
+      throw error;
+    }
   },
 
   /**
-   * 3. GET CONTEXT (Updated to fetch full profile directly)
+   * 3. GET CONTEXT (Semantic Search with Metadata Filter)
    */
   async getContext(question, targetUserId) {
     try {
-      // Since we store one vector per user (the whole README), 
-      // we can fetch by ID directly instead of semantic search.
-      // This guarantees we get the user's data without metadata filtering issues.
-      const fetchResponse = await index.fetch([targetUserId]);
+      const uid = targetUserId.toString().trim();
+      console.log(`--- QUERY START for user: "${uid}" ---`);
       
-      const record = fetchResponse.records[targetUserId];
-      if (record && record.metadata && record.metadata.text) {
-        return record.metadata.text;
+      const queryVector = await this.getEmbedding(question, true);
+      
+      const queryResponse = await index.query({
+        vector: queryVector,
+        topK: 5,
+        filter: { userId: { '$eq': uid } },
+        includeMetadata: true
+      });
+
+      console.log(`Matches found with filter: ${queryResponse.matches?.length || 0}`);
+
+      if (!queryResponse.matches || queryResponse.matches.length === 0) {
+        // Fallback: search without filter to debug what's in the index
+        console.log("DEBUG: Searching without filter to see what's available...");
+        const debugQuery = await index.query({
+          vector: queryVector,
+          topK: 3,
+          includeMetadata: true
+        });
+        
+        if (debugQuery.matches && debugQuery.matches.length > 0) {
+          console.log("Top unfiltered match metadata:", JSON.stringify(debugQuery.matches[0].metadata));
+        }
+        return "I haven't included that specific detail in my portfolio yet.";
       }
-      
-      return "";
+
+      const contextText = queryResponse.matches
+        .map(match => match.metadata.text)
+        .join("\n\n---\n\n");
+
+      return contextText;
     } catch (error) {
       console.error("Error fetching context:", error);
       return "";

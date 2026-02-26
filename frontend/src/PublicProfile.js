@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import io from 'socket.io-client';
 import api from './api';
 import { Send, User, Bot, MessageSquare } from 'lucide-react';
@@ -90,7 +91,7 @@ const PublicProfile = ({ userId }) => {
     <div className="public-profile-container">
       <div className="profile-content">
         <div className="markdown-viewer">
-          <ReactMarkdown>{content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
         </div>
       </div>
 
@@ -116,7 +117,11 @@ const PublicProfile = ({ userId }) => {
                 {msg.sender === 'visitor' ? <User size={16} /> : <Bot size={16} />}
               </div>
               <div className="message-bubble">
-                {msg.text}
+                {msg.sender === 'owner' ? (
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.text}</ReactMarkdown>
+                ) : (
+                  msg.text
+                )}
               </div>
             </div>
           ))}
